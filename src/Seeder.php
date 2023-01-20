@@ -32,4 +32,9 @@ class Seeder
 
         $this->sort();
     }
+
+    public function get(): array
+    {
+        return $this->seeders;
+    }
 }
