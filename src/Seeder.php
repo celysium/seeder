@@ -37,4 +37,9 @@ class Seeder
     {
         return $this->seeders;
     }
+
+    public function getSeeders(): array
+    {
+        return array_column($this->seeders, 'seeder');
+    }
 }
