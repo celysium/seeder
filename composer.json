@@ -13,27 +13,24 @@
     },
     "authors": [
         {
-            "name": "Ehsan Tavakoli",
-            "email": "ehsantavakoli1995@gmail.com"
-        },
-        {
             "name" : "Nasser Hekmati",
             "email" : "hekmati.nasser@gmail.com"
         }
     ],
     "require": {
-        "php": "^8.0.2"
+        "php": "^8.0.2",
+        "laravel/framework": "^9.0|^10.0"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "Celysium\\Seeder\\SeederServiceProvider"
-            ],
+            ]
         }
     },
     "require-dev": {
         "orchestra/testbench": "^7.0"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

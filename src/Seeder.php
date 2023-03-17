@@ -2,44 +2,34 @@
 
 namespace Celysium\Seeder;
 
-class Seeder
+use Illuminate\Database\Seeder as BaseSeeder;
+use Illuminate\Support\Arr;
+
+class Seeder extends BaseSeeder
 {
-    protected array $seeders = [];
+    protected static array $classes = [];
+    protected static bool $silent;
+    protected static array $parameters = [];
 
-    public function add(string $priority, string $seeder): void
+    public static function load($class, $silent = false, array $parameters = [])
     {
-        $this->seeders[] = [
-            'priority' => $priority,
-            'seeder' => $seeder,
-        ];
-
-        $this->sort();
-    }
-
-    protected function sort(): void
-    {
-        usort($this->seeders, fn($a, $b) => $a['priority'] > $b['priority']);
-    }
-
-    public function merge(array $seeders): void
-    {
-        foreach ($seeders as $priority => $seeder) {
-            $this->seeders[] = [
-                'priority' => $priority,
-                'seeder' => $seeder,
-            ];
+        $classes = Arr::wrap($class);
+        foreach ($classes as $perority => $seeder) {
+            if(array_key_exists($perority, static::$classes)) {
+                static::$classes[] = $seeder;
+            }
+            else {
+                static::$classes[$perority] = $seeder;
+            }
         }
+        ksort($classes);
 
-        $this->sort();
+        static::$silent = $silent;
+        static::$parameters = $parameters;
     }
 
-    public function get(): array
+    public function run(): void
     {
-        return $this->seeders;
-    }
-
-    public function getSeeders(): array
-    {
-        return array_column($this->seeders, 'seeder');
+        $this->call(self::$classes, self::$silent, self::$parameters);
     }
 }
