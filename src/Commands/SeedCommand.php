@@ -21,7 +21,9 @@ class SeedCommand extends BaseSeedCommand
         $class = $this->input->getArgument('class') ?? $this->input->getOption('class');
 
         if ($class === "Database\Seeders\DatabaseSeeder") {
-            $seeders = $this->seeders();
+            $seeders = [];
+            $seeders = array_map(fn($seeder) => array_merge($seeders, $seeder), $this->seeders());
+            ksort($seeders);
             foreach ($seeders as $seeder) {
                 $this->input->setArgument('class', $seeder);
                 parent::handle();
